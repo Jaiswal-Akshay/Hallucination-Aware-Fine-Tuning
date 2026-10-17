@@ -1,0 +1,11 @@
+# Python 3.13.3; pinned versions exercised in the project environment.
+transformers==5.16.1
+datasets==5.1.0
+peft==0.21.2
+trl==1.16.0
+accelerate==1.15.0
+numpy==2.2.6
+pandas==2.3.2
+scikit-learn==1.7.1
+pyarrow==26.0.0
+safetensors==0.8.0
