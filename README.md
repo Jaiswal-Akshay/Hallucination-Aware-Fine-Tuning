@@ -39,9 +39,19 @@ Expected device result is `cuda available False`; CPU training is intentional. D
 
 The first checks a single LoRA supervised update. The second checks one TRL DPO optimizer step on synthetic data. These are environment smoke tests, not evidence that the model has learned to avoid hallucinations.
 
+## Base-model evaluation
+
+The small held-out starter set is `data/eval/baseline.jsonl` (12 examples across clean, incomplete, irrelevant, and contradictory evidence). Keep this evaluation set out of all training data. Run the original checkpoint before SFT or DPO:
+
+```powershell
+.\.venv\Scripts\python.exe evaluate_base.py
+```
+
+Predictions and simple proxy metrics are written to `outputs/baseline/`. See [docs/baseline-review.md](docs/baseline-review.md) for the manual review. Citation coverage and answer-key overlap do not establish semantic correctness or claim-level support. Expand this starter set before treating results as research evidence.
+
 ## Data and model storage
 
-The pilot checkpoint cache is stored under `.cache\hf` inside this project. The cache, virtual environments, and generated outputs are ignored by Git. Never put tokens, private corpora, or data without redistribution rights into this repository.
+The pinned Qwen checkpoint and tokenizer are stored at `models/base/Qwen2.5-0.5B-Instruct`; its Hub revision and files are recorded in [docs/model-checkpoint.md](docs/model-checkpoint.md). Both pilot scripts load this local folder with network access disabled. Use this same original checkpoint independently for base evaluation, SFT, and DPO; do not initialize DPO from SFT. The model files, Hugging Face cache, virtual environments, and generated outputs are ignored by Git. Never put tokens, private corpora, or data without redistribution rights into this repository.
 
 The installed Ollama `llama3:latest` is for local inference reference only. The controlled base/SFT/DPO experiment uses the same Hugging Face checkpoint for all three arms.
 

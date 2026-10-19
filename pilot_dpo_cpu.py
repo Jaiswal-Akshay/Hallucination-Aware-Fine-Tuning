@@ -7,13 +7,14 @@ from peft import LoraConfig
 from trl import DPOConfig, DPOTrainer
 
 MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
+MODEL_PATH = Path(__file__).parent / "models" / "base" / "Qwen2.5-0.5B-Instruct"
 os.environ["HF_HOME"] = str(Path(__file__).parent / ".cache" / "hf")
 os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
 torch.set_num_threads(8)
 start = time.time()
 print(f"Loading {MODEL_ID} for one-step DPO CPU pilot...", flush=True)
-tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
-model = AutoModelForCausalLM.from_pretrained(MODEL_ID, dtype=torch.float32, low_cpu_mem_usage=True)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, local_files_only=True)
+model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, dtype=torch.float32, low_cpu_mem_usage=True, local_files_only=True)
 rows = [
     {
         "prompt": [{"role": "user", "content": "Answer only from the evidence. Cite passage IDs and disclose missing information.\n\nQuestion: Where was the second office, and what year did it open?\n\nEvidence: [P1] The second office was in Portland. The passage does not state the year."}],

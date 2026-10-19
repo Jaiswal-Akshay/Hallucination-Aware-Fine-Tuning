@@ -5,14 +5,15 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import LoraConfig, get_peft_model
 
 MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
+MODEL_PATH = Path(__file__).parent / "models" / "base" / "Qwen2.5-0.5B-Instruct"
 HF_HOME = Path(__file__).parent / ".cache" / "hf"
 os.environ["HF_HOME"] = str(HF_HOME)
 os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
 torch.set_num_threads(8)
 start = time.time()
 print(f"Loading {MODEL_ID} on CPU...", flush=True)
-tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
-model = AutoModelForCausalLM.from_pretrained(MODEL_ID, dtype=torch.float32, low_cpu_mem_usage=True)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, local_files_only=True)
+model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, dtype=torch.float32, low_cpu_mem_usage=True, local_files_only=True)
 model.to("cpu")
 model.config.use_cache = False
 lora = LoraConfig(r=2, lora_alpha=4, lora_dropout=0.0, target_modules=["q_proj", "v_proj"], task_type="CAUSAL_LM")
