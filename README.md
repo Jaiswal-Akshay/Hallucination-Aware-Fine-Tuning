@@ -82,7 +82,7 @@ The completed CPU prototype run and its limitations are summarized in [docs/trai
 
 ## Source-grounded evidence split
 
-The next corpus uses National Archives primary-source transcriptions about U.S. founding documents. Whole documents and question IDs were assigned to train, validation, and test before passage cases were authored. See [data/grounded/README.md](data/grounded/README.md) and the [claim and citation annotation guide](data/grounded/ANNOTATION_GUIDE.md). These grounded cases are separate from the earlier synthetic data, and no grounded SFT/DPO pairs have been generated yet.
+The grounded corpus uses National Archives primary-source transcriptions about U.S. founding documents. Whole documents and question IDs were assigned to train, validation, and test before passage cases were authored. See [data/grounded/README.md](data/grounded/README.md), the [claim and citation annotation guide](data/grounded/ANNOTATION_GUIDE.md), and the [grounded preference-pair review](data/grounded/PREFERENCE_REVIEW.md). Starter SFT and DPO files now use only train cases and are separate from the earlier synthetic prototype. The current training scripts still target the synthetic files under `data/train/`, so do not launch training until their data paths are explicitly updated for the grounded files.
 
 ## Data and model storage
 
