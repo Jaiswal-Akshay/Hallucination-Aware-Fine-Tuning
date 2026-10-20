@@ -1,0 +1,4 @@
+{"source_document_id":"NARA-CONSTITUTION-TRANSCRIPT","split":"train","reason":"Assign the entire source document before writing question cases."}
+{"source_document_id":"NARA-ARTICLES-OF-CONFEDERATION","split":"train","reason":"Assign the entire source document before writing question cases."}
+{"source_document_id":"NARA-DECLARATION-TRANSCRIPT","split":"validation","reason":"Held out by source document; used only for validation."}
+{"source_document_id":"NARA-BILL-OF-RIGHTS-TRANSCRIPT","split":"test","reason":"Held out by source document; reserve for final test evaluation."}

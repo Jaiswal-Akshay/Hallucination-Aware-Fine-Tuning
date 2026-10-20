@@ -1,16 +1,17 @@
 """Run the pinned base checkpoint on the small held-out RAG evaluation set."""
 import json
+import argparse
 import re
 from collections import defaultdict
 from pathlib import Path
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
+from peft import PeftModel
 
 ROOT = Path(__file__).resolve().parent
 MODEL_PATH = ROOT / "models" / "base" / "Qwen2.5-0.5B-Instruct"
 DATA_PATH = ROOT / "data" / "eval" / "baseline.jsonl"
-OUT_DIR = ROOT / "outputs" / "baseline"
 MAX_NEW_TOKENS = 96
 
 
@@ -20,6 +21,10 @@ def load_examples():
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--arm", choices=("base", "sft", "dpo"), default="base")
+    arm = parser.parse_args().arm
+    output_dir = ROOT / "outputs" / ("baseline" if arm == "base" else f"{arm}-eval")
     torch.set_num_threads(min(8, torch.get_num_threads()))
     examples = load_examples()
     tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, local_files_only=True)
@@ -29,6 +34,9 @@ def main():
         dtype=torch.float32,
         low_cpu_mem_usage=True,
     ).to("cpu")
+    if arm in ("sft", "dpo"):
+        adapter_path = ROOT / "outputs" / f"{arm}-adapter"
+        model = PeftModel.from_pretrained(model, adapter_path, is_trainable=False)
     model.eval()
 
     rows = []
@@ -70,8 +78,8 @@ def main():
         })
         print(f"[{i}/{len(examples)}] {ex['id']}: {answer}", flush=True)
 
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    with (OUT_DIR / "predictions.jsonl").open("w", encoding="utf-8") as f:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    with (output_dir / "predictions.jsonl").open("w", encoding="utf-8") as f:
         for row in rows:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
@@ -80,6 +88,7 @@ def main():
         grouped[row["condition"]].append(row)
     metrics = {
         "model": "Qwen/Qwen2.5-0.5B-Instruct",
+        "arm": arm,
         "checkpoint_revision": "7ae557604adf67be50417f59c2c2f167def9a775",
         "evaluation_examples": len(rows),
         "metric_note": "Heuristic screening only. Review predictions manually; citation presence and keyword overlap do not establish factual support or correctness.",
@@ -100,8 +109,8 @@ def main():
                 sum(len(r["answer_key_terms_present"]) / max(1, len(r["answer_key_terms"])) for r in group) / len(group), 3
             ),
         }
-    (OUT_DIR / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
-    print(f"Saved predictions and heuristic metrics under {OUT_DIR}", flush=True)
+    (output_dir / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    print(f"Saved predictions and proxy metrics under {output_dir}", flush=True)
 
 
 if __name__ == "__main__":

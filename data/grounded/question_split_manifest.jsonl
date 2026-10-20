@@ -1,0 +1,16 @@
+{"question_id":"Q-CONST-001","source_document_id":"NARA-CONSTITUTION-TRANSCRIPT","split":"train","condition":"clean","question":"Which body does the Constitution empower to declare war?"}
+{"question_id":"Q-CONST-002","source_document_id":"NARA-CONSTITUTION-TRANSCRIPT","split":"train","condition":"incomplete","question":"Which body can declare war, and how many wars had the United States declared by 1787?"}
+{"question_id":"Q-CONST-003","source_document_id":"NARA-CONSTITUTION-TRANSCRIPT","split":"train","condition":"irrelevant","question":"In what year did Rhode Island ratify the Constitution?"}
+{"question_id":"Q-CONST-004","source_document_id":"NARA-CONSTITUTION-TRANSCRIPT","split":"train","condition":"contradictory","question":"Who has the constitutional power to declare war?"}
+{"question_id":"Q-ART-001","source_document_id":"NARA-ARTICLES-OF-CONFEDERATION","split":"train","condition":"clean","question":"How many votes did each state have in Congress under the Articles of Confederation?"}
+{"question_id":"Q-ART-002","source_document_id":"NARA-ARTICLES-OF-CONFEDERATION","split":"train","condition":"incomplete","question":"How many delegates could a state send to Congress, and what annual salary did each delegate receive?"}
+{"question_id":"Q-ART-003","source_document_id":"NARA-ARTICLES-OF-CONFEDERATION","split":"train","condition":"irrelevant","question":"Who was the first Chief Justice of the United States?"}
+{"question_id":"Q-ART-004","source_document_id":"NARA-ARTICLES-OF-CONFEDERATION","split":"train","condition":"contradictory","question":"How many votes did each state have in Congress under the Articles of Confederation?"}
+{"question_id":"Q-DECL-001","source_document_id":"NARA-DECLARATION-TRANSCRIPT","split":"validation","condition":"clean","question":"What date appears in the Declaration of Independence transcript's heading?"}
+{"question_id":"Q-DECL-002","source_document_id":"NARA-DECLARATION-TRANSCRIPT","split":"validation","condition":"incomplete","question":"What date and city appear in the Declaration transcript's heading?"}
+{"question_id":"Q-DECL-003","source_document_id":"NARA-DECLARATION-TRANSCRIPT","split":"validation","condition":"irrelevant","question":"What powers does the Constitution give Congress to coin money?"}
+{"question_id":"Q-DECL-004","source_document_id":"NARA-DECLARATION-TRANSCRIPT","split":"validation","condition":"contradictory","question":"What date appears in the Declaration of Independence transcript's heading?"}
+{"question_id":"Q-BOR-001","source_document_id":"NARA-BILL-OF-RIGHTS-TRANSCRIPT","split":"test","condition":"clean","question":"Which protections are listed in the First Amendment passage?"}
+{"question_id":"Q-BOR-002","source_document_id":"NARA-BILL-OF-RIGHTS-TRANSCRIPT","split":"test","condition":"incomplete","question":"Which protections does the First Amendment list, and in what year was it ratified?"}
+{"question_id":"Q-BOR-003","source_document_id":"NARA-BILL-OF-RIGHTS-TRANSCRIPT","split":"test","condition":"irrelevant","question":"What was the population of New York City in 1791?"}
+{"question_id":"Q-BOR-004","source_document_id":"NARA-BILL-OF-RIGHTS-TRANSCRIPT","split":"test","condition":"contradictory","question":"Does the First Amendment passage include freedom of the press?"}

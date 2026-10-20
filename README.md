@@ -49,6 +49,41 @@ The small held-out starter set is `data/eval/baseline.jsonl` (12 examples across
 
 Predictions and simple proxy metrics are written to `outputs/baseline/`. See [docs/baseline-review.md](docs/baseline-review.md) for the manual review. Citation coverage and answer-key overlap do not establish semantic correctness or claim-level support. Expand this starter set before treating results as research evidence.
 
+## Training data prototype
+
+The preference-pair authoring source is `data/source/preference_pairs.jsonl`. Generate the TRL-compatible SFT and DPO files with:
+
+```powershell
+.\.venv\Scripts\python.exe prepare_training_data.py
+```
+
+This creates `data/train/sft.jsonl` (`prompt`, `completion`) and `data/train/dpo.jsonl` (`prompt`, `chosen`, `rejected`). Both training arms use the same prompts and chosen answers; rejected answers are plausible unsupported, contradictory, or overconfident alternatives. The current set has only 12 synthetic examples. Review it and expand it before interpreting any training result. Keep `data/eval/baseline.jsonl` held out. See [data/README.md](data/README.md).
+
+## Adapter training and comparison
+
+The CPU LoRA training commands each load the original base model independently:
+
+```powershell
+.\.venv\Scripts\python.exe train_sft.py
+.\.venv\Scripts\python.exe train_dpo.py
+```
+
+They save adapters separately under `outputs/sft-adapter` and `outputs/dpo-adapter`. To evaluate each arm on the same held-out examples:
+
+```powershell
+.\.venv\Scripts\python.exe evaluate_base.py --arm base
+.\.venv\Scripts\python.exe evaluate_base.py --arm sft
+.\.venv\Scripts\python.exe evaluate_base.py --arm dpo
+```
+
+Evaluation files are saved in `outputs/baseline`, `outputs/sft-eval`, and `outputs/dpo-eval`. CPU training is slow; the 12-example run is only a pipeline demonstration. Metrics are proxies, and predictions need manual review.
+
+The completed CPU prototype run and its limitations are summarized in [docs/training-results.md](docs/training-results.md).
+
+## Source-grounded evidence split
+
+The next corpus uses National Archives primary-source transcriptions about U.S. founding documents. Whole documents and question IDs were assigned to train, validation, and test before passage cases were authored. See [data/grounded/README.md](data/grounded/README.md) and the [claim and citation annotation guide](data/grounded/ANNOTATION_GUIDE.md). These grounded cases are separate from the earlier synthetic data, and no grounded SFT/DPO pairs have been generated yet.
+
 ## Data and model storage
 
 The pinned Qwen checkpoint and tokenizer are stored at `models/base/Qwen2.5-0.5B-Instruct`; its Hub revision and files are recorded in [docs/model-checkpoint.md](docs/model-checkpoint.md). Both pilot scripts load this local folder with network access disabled. Use this same original checkpoint independently for base evaluation, SFT, and DPO; do not initialize DPO from SFT. The model files, Hugging Face cache, virtual environments, and generated outputs are ignored by Git. Never put tokens, private corpora, or data without redistribution rights into this repository.
