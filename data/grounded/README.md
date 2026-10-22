@@ -32,6 +32,8 @@ Use [`ANNOTATION_GUIDE.md`](ANNOTATION_GUIDE.md) to label answer claims and asse
 
 The eight training cases have reviewed starter preference pairs in `preference_pairs.jsonl`. `dpo.jsonl` contains the TRL `prompt`, `chosen`, and `rejected` fields; `sft.jsonl` contains `prompt` and `completion` using the exact same prompts and chosen responses. See [`PREFERENCE_REVIEW.md`](PREFERENCE_REVIEW.md) for the manual review and the warning about current trainer defaults.
 
+`dpo_validation.jsonl` contains one held-out preference pair for each validation case. It is used only for DPO evaluation; its chosen responses match the validation cases' expected answers. Test cases are not included in either training or validation datasets.
+
 ## Separation from the earlier prototype
 
 The older `data/source/preference_pairs.jsonl`, `data/train/*.jsonl`, and `data/eval/baseline.jsonl` files are synthetic pipeline prototypes. They are not part of this source-grounded split and should not be mixed with `data/grounded/cases.jsonl`. Training pairs have not yet been derived from these grounded cases.
