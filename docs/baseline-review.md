@@ -2,7 +2,8 @@
 
 Run: `python evaluate_base.py`  
 Checkpoint: `Qwen/Qwen2.5-0.5B-Instruct`, revision `7ae557604adf67be50417f59c2c2f167def9a775`  
-Output: `outputs/baseline/predictions.jsonl`
+Predictions: `outputs/generations/baseline/predictions.jsonl`  
+Proxy metrics: `outputs/metrics/baseline/metrics.json`
 
 ## Observations from the 12-example starter set
 

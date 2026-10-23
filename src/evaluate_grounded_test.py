@@ -9,10 +9,11 @@ import transformers
 from peft import PeftModel
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = ROOT / "models" / "base" / "Qwen2.5-0.5B-Instruct"
-CASES_PATH = ROOT / "data" / "grounded" / "cases.jsonl"
-OUTPUT_DIR = ROOT / "outputs" / "grounded-test-evaluation"
+CASES_PATH = ROOT / "data" / "processed" / "grounded" / "cases.jsonl"
+OUTPUT_DIR = ROOT / "outputs" / "generations" / "grounded-test"
+METADATA_PATH = ROOT / "outputs" / "logs" / "grounded-test" / "run_metadata.json"
 MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
 MODEL_REVISION = "7ae557604adf67be50417f59c2c2f167def9a775"
 PROMPT_TEMPLATE = (
@@ -22,8 +23,8 @@ PROMPT_TEMPLATE = (
 MAX_NEW_TOKENS = 128
 ARMS = {
     "base": None,
-    "sft": ROOT / "outputs" / "grounded-sft-adapter",
-    "dpo": ROOT / "outputs" / "grounded-dpo-adapter",
+    "sft": ROOT / "outputs" / "adapters" / "grounded-sft",
+    "dpo": ROOT / "outputs" / "adapters" / "grounded-dpo",
 }
 
 
@@ -140,8 +141,9 @@ def main():
         "condition_counts": dict(conditions),
         "note": "All arms use the same 4 held-out test cases, exact prompt strings, greedy decoding, and 128-token limit. No test results are used for checkpoint or hyperparameter selection.",
     }
-    (OUTPUT_DIR / "run_metadata.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
-    print(f"Saved three arms and shared metadata under {OUTPUT_DIR}", flush=True)
+    METADATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+    METADATA_PATH.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+    print(f"Saved three arms under {OUTPUT_DIR}; metadata: {METADATA_PATH}", flush=True)
 
 
 if __name__ == "__main__":

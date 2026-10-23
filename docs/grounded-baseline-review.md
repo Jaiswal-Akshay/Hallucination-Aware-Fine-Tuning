@@ -7,10 +7,10 @@ Before any grounded fine-tuning, the original local `Qwen/Qwen2.5-0.5B-Instruct`
 Run it again from the project root with:
 
 ```powershell
-.\.venv\Scripts\python.exe evaluate_grounded_baseline.py
+.\.venv\Scripts\python.exe src\evaluate_grounded_baseline.py
 ```
 
-The script saves the full prompt, evidence passages, raw generated answer, case metadata, model revision, and decoding settings under the ignored local directory `outputs/grounded-baseline/`. `predictions.jsonl` contains one complete record per case; `run_metadata.json` records the shared setup. The pinned model revision is `7ae557604adf67be50417f59c2c2f167def9a775`.
+The script saves the full prompt, evidence passages, raw generated answer, case metadata, model revision, and decoding settings under the ignored local directory `outputs/generations/grounded-baseline/`. `predictions.jsonl` contains one complete record per case; `outputs/logs/grounded-baseline/run_metadata.json` records the shared setup. The pinned model revision is `7ae557604adf67be50417f59c2c2f167def9a775`.
 
 ## Manual format and behavior review
 

@@ -26,4 +26,4 @@ Chosen and rejected responses use the same prompt per pair. The rejected answers
 - `sft.jsonl`: `prompt` and `completion`, using the identical prompt and chosen response for each DPO row.
 - Only the eight `train` cases were used. Validation and test cases were not used to author these examples.
 
-These files are isolated under `data/grounded/`. The existing training scripts still read the earlier synthetic prototype under `data/train/`; do not treat their current defaults as training on this grounded data. Before a grounded training run, update or add an explicit data-path option and confirm both arms load the same grounded prompts and chosen answers.
+These files are isolated under `data/processed/grounded/`. The grounded entry points `src/train_grounded_sft.py` and `src/train_grounded_dpo.py` read these grounded training files; the separate legacy `src/train_sft.py` and `src/train_dpo.py` scripts still target the earlier synthetic prototype under `data/processed/prototype/train/`. The grounded runs were trained independently from the original base checkpoint and use the same prompts and chosen answers for SFT and DPO.

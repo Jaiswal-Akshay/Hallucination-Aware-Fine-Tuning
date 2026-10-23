@@ -7,8 +7,9 @@ from peft import LoraConfig
 from trl import DPOConfig, DPOTrainer
 
 MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
-MODEL_PATH = Path(__file__).parent / "models" / "base" / "Qwen2.5-0.5B-Instruct"
-os.environ["HF_HOME"] = str(Path(__file__).parent / ".cache" / "hf")
+ROOT = Path(__file__).resolve().parents[1]
+MODEL_PATH = ROOT / "models" / "base" / "Qwen2.5-0.5B-Instruct"
+os.environ["HF_HOME"] = str(ROOT / ".cache" / "hf")
 os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
 torch.set_num_threads(8)
 start = time.time()
@@ -28,7 +29,7 @@ rows = [
     },
 ]
 config = DPOConfig(
-    output_dir="outputs/dpo-pilot",
+    output_dir=str(ROOT / "outputs" / "logs" / "dpo-pilot"),
     use_cpu=True,
     per_device_train_batch_size=1,
     gradient_accumulation_steps=1,

@@ -89,8 +89,8 @@ We still need to measure peak memory during a full dataset run. Available RAM va
 From this project directory, activate the environment or invoke it directly:
 
 ```powershell
-.\.venv\Scripts\python.exe pilot_cpu.py
-.\.venv\Scripts\python.exe pilot_dpo_cpu.py
+.\.venv\Scripts\python.exe src\pilot_cpu.py
+.\.venv\Scripts\python.exe src\pilot_dpo_cpu.py
 ```
 
 For a fresh environment, install the Windows CPU wheels first, then the pinned packages in `requirements.txt`:

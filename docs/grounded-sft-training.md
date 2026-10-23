@@ -4,8 +4,8 @@
 
 - **Base:** `Qwen/Qwen2.5-0.5B-Instruct`, revision `7ae557604adf67be50417f59c2c2f167def9a775`
 - **Method:** TRL `SFTTrainer` with PEFT LoRA
-- **Training data:** 8 chosen responses from `data/grounded/sft.jsonl` (training split only)
-- **Validation data:** 4 expected responses built from validation cases in `data/grounded/cases.jsonl`
+- **Training data:** 8 chosen responses from `data/processed/grounded/sft.jsonl` (training split only)
+- **Validation data:** 4 expected responses built from validation cases in `data/processed/grounded/cases.jsonl`
 - **Test data:** 4 test cases excluded
 - **Sequence cap:** 256 tokens
 - **LoRA:** rank 4, alpha 8, dropout 0.05, `q_proj` and `v_proj`
@@ -28,7 +28,7 @@ These losses are a pipeline record, not evidence of improved factual grounding. 
 
 ## Saved outputs
 
-The generated files are local and Git-ignored under `outputs/grounded-sft-adapter/`:
+The generated files are local and Git-ignored under `outputs/adapters/grounded-sft/`:
 
 - `adapter_model.safetensors` and `adapter_config.json`: trained LoRA adapter
 - `run_config.json`: base revision, dataset split counts, seed, training arguments, LoRA settings, and package versions
@@ -39,5 +39,5 @@ The generated files are local and Git-ignored under `outputs/grounded-sft-adapte
 To reproduce from the project root:
 
 ```powershell
-.\.venv\Scripts\python.exe train_grounded_sft.py
+.\.venv\Scripts\python.exe src\train_grounded_sft.py
 ```

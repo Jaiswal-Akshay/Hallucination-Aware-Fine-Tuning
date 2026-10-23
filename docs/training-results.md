@@ -6,15 +6,15 @@ Both adapters used `Qwen/Qwen2.5-0.5B-Instruct` at revision `7ae557604adf67be504
 
 | Arm | Training loss | Training time | Output |
 | --- | ---: | ---: | --- |
-| Base | — | — | `outputs/baseline/` |
-| SFT | 1.23 | 1,163 sec (19m 23s) | `outputs/sft-adapter/` |
-| DPO | 0.6984 | 2,802 sec (46m 42s) | `outputs/dpo-adapter/` |
+| Base | — | — | `outputs/generations/baseline/` |
+| SFT | 1.23 | 1,163 sec (19m 23s) | `outputs/adapters/sft-prototype/` |
+| DPO | 0.6984 | 2,802 sec (46m 42s) | `outputs/adapters/dpo-prototype/` |
 
 The DPO run spent about 77 seconds precomputing reference log probabilities; its 12 optimizer steps averaged about 234 seconds each.
 
 ## Held-out evaluation observations
 
-All three arms were evaluated on the same 12 examples in `data/eval/baseline.jsonl`.
+All three arms were evaluated on the same 12 examples in `data/processed/prototype/eval/baseline.jsonl`.
 
 - **Base:** Correct answer-key terms appeared for clean examples, but citations were omitted; the model invented a launch year, added an unsupported cost claim, and selected one side in each contradictory case.
 - **SFT:** Generated a citation for two of three clean examples, but retained the invented launch year, unsupported cost claim, and conflict-selection failures.
@@ -24,11 +24,11 @@ These results do **not** show that DPO or SFT reduced hallucinations. The traini
 
 ## Output files
 
-- Base predictions and metrics: `outputs/baseline/`
-- SFT adapter and training summary: `outputs/sft-adapter/`
-- SFT predictions and metrics: `outputs/sft-eval/`
-- DPO adapter and training summary: `outputs/dpo-adapter/`
-- DPO predictions and metrics: `outputs/dpo-eval/`
+- Base predictions: `outputs/generations/baseline/`; proxy metrics: `outputs/metrics/baseline/`
+- SFT adapter and training summary: `outputs/adapters/sft-prototype/`
+- SFT predictions: `outputs/generations/sft-prototype/`; proxy metrics: `outputs/metrics/sft-prototype/`
+- DPO adapter and training summary: `outputs/adapters/dpo-prototype/`
+- DPO predictions: `outputs/generations/dpo-prototype/`; proxy metrics: `outputs/metrics/dpo-prototype/`
 
 ## Next work
 

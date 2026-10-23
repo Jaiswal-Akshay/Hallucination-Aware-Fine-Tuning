@@ -2,9 +2,9 @@
 
 ## Protocol
 
-The original Qwen2.5-0.5B-Instruct checkpoint, its independently trained SFT adapter, and its independently trained DPO adapter were evaluated on the same four held-out cases in `data/grounded/test.jsonl`. The model checkpoint revision is `7ae557604adf67be50417f59c2c2f167def9a775`. All three arms used the same saved prompts and greedy decoding: `do_sample=false`, `num_beams=1`, and `max_new_tokens=128`. The full prompt, evidence, generated answer, model revision, and decoding settings are preserved in `outputs/grounded-test-evaluation/*_predictions.jsonl` and `run_metadata.json`.
+The original Qwen2.5-0.5B-Instruct checkpoint, its independently trained SFT adapter, and its independently trained DPO adapter were evaluated on the same four held-out cases in `data/processed/grounded/cases.jsonl`. The model checkpoint revision is `7ae557604adf67be50417f59c2c2f167def9a775`. All three arms used the same saved prompts and greedy decoding: `do_sample=false`, `num_beams=1`, and `max_new_tokens=128`. The full prompt, evidence, generated answer, model revision, and decoding settings are preserved in `outputs/generations/grounded-test/*_predictions.jsonl`; settings metadata is in `outputs/logs/grounded-test/run_metadata.json`.
 
-The test set was not used to select checkpoints or tune training parameters. Every generated answer (12 total) was manually annotated claim by claim in `data/grounded/test_annotations.jsonl` using `data/grounded/ANNOTATION_GUIDE.md`. The script `score_grounded_test.py` validates annotation/prediction alignment and calculates the reproducible aggregate file `outputs/grounded-test-evaluation/metrics.json`.
+The test set was not used to select checkpoints or tune training parameters. Every generated answer (12 total) was manually annotated claim by claim in `data/processed/grounded/test_annotations.jsonl` using `data/processed/grounded/ANNOTATION_GUIDE.md`. The script `src/score_grounded_test.py` validates annotation/prediction alignment and calculates the reproducible aggregate file `outputs/metrics/grounded-test/metrics.json`.
 
 ## Results by evidence condition
 
@@ -47,12 +47,12 @@ Before drawing research conclusions, expand the source-separated test set with m
 Generate all three arms with the existing local models and adapters:
 
 ```powershell
-.\.venv\Scripts\python.exe evaluate_grounded_test.py
+.\.venv\Scripts\python.exe src\evaluate_grounded_test.py
 ```
 
 After reviewing or editing the annotations, validate and aggregate them:
 
 ```powershell
-.\.venv\Scripts\python.exe score_grounded_test.py
+.\.venv\Scripts\python.exe src\score_grounded_test.py
 ```
 

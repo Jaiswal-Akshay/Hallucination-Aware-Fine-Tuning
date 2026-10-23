@@ -26,7 +26,7 @@ The laptop setup is CPU-based. That makes the experiment possible on this machin
 
 ## 3. How the evidence simulation works — 1:20–2:15
 
-**On screen:** Open `data/grounded/README.md`, then `source_manifest.jsonl`, `split_manifest.jsonl`, and `cases.jsonl`. Expand one case.
+**On screen:** Open `data/processed/grounded/README.md`, then `source_manifest.jsonl`, `split_manifest.jsonl`, and `cases.jsonl`. Expand one case.
 
 **Say:**
 
@@ -46,7 +46,7 @@ That document-level separation reduces the chance that the same source facts app
 
 ## 5. How we construct and check training examples — 2:55–3:55
 
-**On screen:** Open `data/grounded/preference_pairs.jsonl`, then `data/grounded/sft.jsonl` and `data/grounded/dpo.jsonl`. Show one incomplete pair and one contradictory pair.
+**On screen:** Open `data/processed/grounded/preference_pairs.jsonl`, then `data/processed/grounded/sft.jsonl` and `data/processed/grounded/dpo.jsonl`. Show one incomplete pair and one contradictory pair.
 
 **Say:**
 
@@ -58,7 +58,7 @@ We manually reviewed all eight starter pairs for evidence fidelity, citation pla
 
 ## 6. What makes the process auditable — 3:55–4:50
 
-**On screen:** Open `data/grounded/ANNOTATION_GUIDE.md`; show the four labels and citation rules. Then show `docs/training-results.md`.
+**On screen:** Open `data/processed/grounded/ANNOTATION_GUIDE.md`; show the four labels and citation rules. Then show `docs/training-results.md`.
 
 **Say:**
 
@@ -74,7 +74,7 @@ We record source URLs and passage provenance, keep the split manifests, and pres
 
 “We have already run an earlier CPU pipeline demonstration using twelve synthetic training examples and twelve synthetic evaluation examples. In that small run, SFT did not consistently prevent unsupported claims, and DPO outputs were effectively unchanged from the base model on the evaluation set. Those results do not show a hallucination reduction.
 
-The new source-grounded SFT and DPO data has been prepared, but the current training scripts still point to the earlier synthetic files. So we have not yet trained or evaluated models on this grounded dataset. We will update the data paths, run the grounded training arms independently from the original checkpoint, and evaluate them on held-out cases before making a claim about their effect.”
+We have now trained grounded SFT and DPO adapters independently from the original Qwen checkpoint and evaluated all three arms on the same four held-out questions. Every answer was reviewed claim by claim. SFT showed fewer unsupported claims in this tiny test, while DPO outputs matched the base model. With one question per condition, this remains a pipeline pilot and does not establish that fine-tuning reduces hallucinations.”
 
 ## 8. Closing — 5:45–6:05
 
@@ -82,12 +82,12 @@ The new source-grounded SFT and DPO data has been prepared, but the current trai
 
 **Say:**
 
-“The contribution at this stage is a controlled and inspectable experiment design: fixed evidence, source-level splits, aligned SFT and DPO examples, and claim-level citation review rules. The next step is to train using the grounded data and compare base, SFT, and DPO on the held-out test cases. Any conclusion will depend on expanding the dataset and checking the answers carefully.”
+“The experiment now has fixed evidence, source-level splits, aligned SFT and DPO examples, independent adapters, and claim-level review of held-out answers. The next research step is to expand the source-separated dataset and test set, then repeat the paired comparison without using test results for tuning.”
 
 ## Suggested recording checklist
 
 - Keep personal paths, tokens, and unrelated desktop notifications off screen.
 - Show the `synthetic_counterfactual` label when demonstrating a contradiction case.
 - Do not call the prototype a deployed RAG system or say the fine-tuned model is proven trustworthy.
-- State clearly that grounded training and held-out evaluation are still pending.
+- State clearly that the current test set has only four questions and results are preliminary.
 - If showing model output, identify which checkpoint and dataset produced it; do not present synthetic-prototype results as grounded-corpus results.

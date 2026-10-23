@@ -1,0 +1,19 @@
+model:
+  id: Qwen/Qwen2.5-0.5B-Instruct
+  revision: 7ae557604adf67be50417f59c2c2f167def9a775
+test_cases: data/processed/grounded/cases.jsonl
+annotations: data/processed/grounded/test_annotations.jsonl
+generation_dir: outputs/generations/grounded-test
+metrics_file: outputs/metrics/grounded-test/metrics.json
+metadata_file: outputs/logs/grounded-test/run_metadata.json
+prompt_template: >-
+  Answer using only the supplied evidence. Cite passage IDs for factual claims.
+  If the evidence is insufficient or conflicting, say so rather than guessing.
+decoding:
+  device: cpu
+  do_sample: false
+  num_beams: 1
+  max_new_tokens: 128
+conditions: [clean, incomplete, irrelevant, contradictory]
+manual_audit: all_generated_answers
+paired_comparison_unit: case_id

@@ -1,0 +1,16 @@
+# Dataset locations are relative to the project root.
+grounded:
+  source_manifest: data/processed/grounded/source_manifest.jsonl
+  document_split_manifest: data/processed/grounded/split_manifest.jsonl
+  question_split_manifest: data/processed/grounded/question_split_manifest.jsonl
+  cases: data/processed/grounded/cases.jsonl
+  preference_source: data/processed/grounded/preference_pairs.jsonl
+  sft: data/processed/grounded/sft.jsonl
+  dpo: data/processed/grounded/dpo.jsonl
+  dpo_validation: data/processed/grounded/dpo_validation.jsonl
+  test_annotations: data/processed/grounded/test_annotations.jsonl
+prototype:
+  raw_preference_source: data/raw/prototype/source/preference_pairs.jsonl
+  evaluation: data/processed/prototype/eval/baseline.jsonl
+  sft: data/processed/prototype/train/sft.jsonl
+  dpo: data/processed/prototype/train/dpo.jsonl

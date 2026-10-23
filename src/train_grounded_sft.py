@@ -12,11 +12,11 @@ from peft import LoraConfig
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from trl import SFTConfig, SFTTrainer
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = ROOT / "models" / "base" / "Qwen2.5-0.5B-Instruct"
-TRAIN_PATH = ROOT / "data" / "grounded" / "sft.jsonl"
-CASES_PATH = ROOT / "data" / "grounded" / "cases.jsonl"
-OUTPUT_PATH = ROOT / "outputs" / "grounded-sft-adapter"
+TRAIN_PATH = ROOT / "data" / "processed" / "grounded" / "sft.jsonl"
+CASES_PATH = ROOT / "data" / "processed" / "grounded" / "cases.jsonl"
+OUTPUT_PATH = ROOT / "outputs" / "adapters" / "grounded-sft"
 MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
 MODEL_REVISION = "7ae557604adf67be50417f59c2c2f167def9a775"
 MAX_LENGTH = 256

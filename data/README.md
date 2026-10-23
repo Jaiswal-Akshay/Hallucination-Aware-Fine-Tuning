@@ -1,20 +1,17 @@
-# Dataset layout
+# Data layout
 
-**Important:** The current `source/preference_pairs.jsonl`, `train/*.jsonl`, and `eval/baseline.jsonl` are synthetic pipeline prototypes. The new source-grounded split is separate in `grounded/`; do not combine these corpora. The grounded data has cases and split manifests, but does not yet have preference pairs for training.
+The project stores source-like material under `data/raw/` and trainer-ready or split datasets under `data/processed/`.
 
-- `source/preference_pairs.jsonl` is the annotated authoring source. Each row contains an ID, evidence condition, shared prompt, chosen response, rejected response, and rationale.
-- `train/sft.jsonl` is generated in TRL prompt/completion format.
-- `train/dpo.jsonl` is generated in TRL prompt/chosen/rejected format.
-- `eval/baseline.jsonl` is held out. Do not use it to train or select examples.
+- `raw/prototype/source/preference_pairs.jsonl` is the original synthetic prototype's annotation source.
+- `processed/prototype/train/` and `processed/prototype/eval/` hold its generated training and held-out data. This historical prototype is separate from the grounded experiment.
+- `processed/grounded/` contains source and question split manifests, cases, preference pairs, SFT/DPO data, validation preferences, the annotation guide, and manually reviewed test annotations.
 
-Regenerate the two training files with:
+The grounded corpus uses whole-source document splits: Constitution and Articles of Confederation for training, Declaration of Independence for validation, and Bill of Rights for test. See [the grounded data README](processed/grounded/README.md), [annotation guide](processed/grounded/ANNOTATION_GUIDE.md), and [preference review](processed/grounded/PREFERENCE_REVIEW.md). Keep validation and test examples out of training and preference-pair construction.
+
+The old synthetic prototype can be regenerated with:
 
 ```powershell
-.\.venv\Scripts\python.exe prepare_training_data.py
+.\.venv\Scripts\python.exe src\prepare_training_data.py
 ```
 
-The current training set is intentionally a tiny prototype (12 pairs, three per evidence condition). Review every source pair for factual support and preference quality before using it. It is not large or diverse enough for a meaningful final model comparison. Expand the training set while keeping the baseline evaluation examples and prompts separate.
-
-The generated training files contain only the columns expected by the selected TRL formats. The authoring source retains rationales for human inspection; rationales are not passed to the trainer.
-
-For the source-grounded document/question split, see [grounded/README.md](grounded/README.md). Keep validation and test cases completely out of training and preference-pair construction.
+The data paths are also recorded in [`configs/data.yaml`](../configs/data.yaml).

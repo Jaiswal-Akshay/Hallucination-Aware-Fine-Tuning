@@ -8,10 +8,10 @@ from peft import LoraConfig
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from trl import DPOConfig, DPOTrainer
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = ROOT / "models" / "base" / "Qwen2.5-0.5B-Instruct"
-DATA_PATH = ROOT / "data" / "train" / "dpo.jsonl"
-OUTPUT_PATH = ROOT / "outputs" / "dpo-adapter"
+DATA_PATH = ROOT / "data" / "processed" / "prototype" / "train" / "dpo.jsonl"
+OUTPUT_PATH = ROOT / "outputs" / "adapters" / "dpo-prototype"
 MAX_LENGTH = 256
 
 

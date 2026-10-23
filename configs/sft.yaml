@@ -1,0 +1,24 @@
+method: trl.SFTTrainer
+base_model: Qwen/Qwen2.5-0.5B-Instruct
+base_revision: 7ae557604adf67be50417f59c2c2f167def9a775
+base_path: models/base/Qwen2.5-0.5B-Instruct
+initialize_from_original_base: true
+train_data: data/processed/grounded/sft.jsonl
+validation_cases: data/processed/grounded/cases.jsonl
+test_data_used_for_training_or_selection: false
+output_dir: outputs/adapters/grounded-sft
+device: cpu
+seed: 42
+data_seed: 42
+epochs: 1
+batch_size: 1
+gradient_accumulation_steps: 1
+learning_rate: 0.0001
+max_length: 256
+precision: float32
+trainer_bf16_flag: true
+lora:
+  rank: 4
+  alpha: 8
+  dropout: 0.05
+  target_modules: [q_proj, v_proj]

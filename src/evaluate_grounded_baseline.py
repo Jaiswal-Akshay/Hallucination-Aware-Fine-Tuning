@@ -8,10 +8,11 @@ import torch
 import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = ROOT / "models" / "base" / "Qwen2.5-0.5B-Instruct"
-CASES_PATH = ROOT / "data" / "grounded" / "cases.jsonl"
-OUTPUT_DIR = ROOT / "outputs" / "grounded-baseline"
+CASES_PATH = ROOT / "data" / "processed" / "grounded" / "cases.jsonl"
+OUTPUT_DIR = ROOT / "outputs" / "generations" / "grounded-baseline"
+METADATA_PATH = ROOT / "outputs" / "logs" / "grounded-baseline" / "run_metadata.json"
 MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
 MODEL_REVISION = "7ae557604adf67be50417f59c2c2f167def9a775"
 PROMPT_TEMPLATE = (
@@ -129,10 +130,11 @@ def main():
         "split_counts": dict(Counter(row["split"] for row in rows)),
         "condition_counts": dict(Counter(row["condition"] for row in rows)),
         "outputs_containing_bracketed_passage_ids": sum(bool(row["bracketed_passage_ids_in_generated_text"]) for row in rows),
-        "note": "Bracketed IDs may be echoed from the prompt/evidence and are not counted as citations. This run does not automatically score citations or answer correctness; manually annotate claims using data/grounded/ANNOTATION_GUIDE.md.",
+        "note": "Bracketed IDs may be echoed from the prompt/evidence and are not counted as citations. This run does not automatically score citations or answer correctness; manually annotate claims using data/processed/grounded/ANNOTATION_GUIDE.md.",
     }
-    (OUTPUT_DIR / "run_metadata.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
-    print(f"Saved {len(rows)} held-out predictions and run metadata under {OUTPUT_DIR}", flush=True)
+    METADATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+    METADATA_PATH.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    print(f"Saved {len(rows)} held-out predictions under {OUTPUT_DIR}; metadata: {METADATA_PATH}", flush=True)
 
 
 if __name__ == "__main__":

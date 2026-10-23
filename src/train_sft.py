@@ -8,10 +8,10 @@ from peft import LoraConfig
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from trl import SFTConfig, SFTTrainer
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = ROOT / "models" / "base" / "Qwen2.5-0.5B-Instruct"
-DATA_PATH = ROOT / "data" / "train" / "sft.jsonl"
-OUTPUT_PATH = ROOT / "outputs" / "sft-adapter"
+DATA_PATH = ROOT / "data" / "processed" / "prototype" / "train" / "sft.jsonl"
+OUTPUT_PATH = ROOT / "outputs" / "adapters" / "sft-prototype"
 MAX_LENGTH = 256
 
 

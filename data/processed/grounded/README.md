@@ -36,4 +36,4 @@ The eight training cases have reviewed starter preference pairs in `preference_p
 
 ## Separation from the earlier prototype
 
-The older `data/source/preference_pairs.jsonl`, `data/train/*.jsonl`, and `data/eval/baseline.jsonl` files are synthetic pipeline prototypes. They are not part of this source-grounded split and should not be mixed with `data/grounded/cases.jsonl`. Training pairs have not yet been derived from these grounded cases.
+The older `data/raw/prototype/source/preference_pairs.jsonl`, `data/processed/prototype/train/*.jsonl`, and `data/processed/prototype/eval/baseline.jsonl` files are synthetic pipeline prototypes. They are not part of this source-grounded split and should not be mixed with `data/processed/grounded/cases.jsonl`. Grounded SFT and DPO pairs are in this directory and are consumed by `src/train_grounded_sft.py` and `src/train_grounded_dpo.py`.

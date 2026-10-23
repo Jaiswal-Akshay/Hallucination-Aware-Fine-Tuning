@@ -9,9 +9,9 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = ROOT / "models" / "base" / "Qwen2.5-0.5B-Instruct"
-DATA_PATH = ROOT / "data" / "eval" / "baseline.jsonl"
+DATA_PATH = ROOT / "data" / "processed" / "prototype" / "eval" / "baseline.jsonl"
 MAX_NEW_TOKENS = 96
 
 
@@ -24,7 +24,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--arm", choices=("base", "sft", "dpo"), default="base")
     arm = parser.parse_args().arm
-    output_dir = ROOT / "outputs" / ("baseline" if arm == "base" else f"{arm}-eval")
+    run_name = "baseline" if arm == "base" else f"{arm}-prototype"
+    generation_dir = ROOT / "outputs" / "generations" / run_name
+    metrics_path = ROOT / "outputs" / "metrics" / run_name / "metrics.json"
     torch.set_num_threads(min(8, torch.get_num_threads()))
     examples = load_examples()
     tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH, local_files_only=True)
@@ -35,7 +37,7 @@ def main():
         low_cpu_mem_usage=True,
     ).to("cpu")
     if arm in ("sft", "dpo"):
-        adapter_path = ROOT / "outputs" / f"{arm}-adapter"
+        adapter_path = ROOT / "outputs" / "adapters" / f"{arm}-prototype"
         model = PeftModel.from_pretrained(model, adapter_path, is_trainable=False)
     model.eval()
 
@@ -78,8 +80,8 @@ def main():
         })
         print(f"[{i}/{len(examples)}] {ex['id']}: {answer}", flush=True)
 
-    output_dir.mkdir(parents=True, exist_ok=True)
-    with (output_dir / "predictions.jsonl").open("w", encoding="utf-8") as f:
+    generation_dir.mkdir(parents=True, exist_ok=True)
+    with (generation_dir / "predictions.jsonl").open("w", encoding="utf-8") as f:
         for row in rows:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
@@ -109,8 +111,9 @@ def main():
                 sum(len(r["answer_key_terms_present"]) / max(1, len(r["answer_key_terms"])) for r in group) / len(group), 3
             ),
         }
-    (output_dir / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
-    print(f"Saved predictions and proxy metrics under {output_dir}", flush=True)
+    metrics_path.parent.mkdir(parents=True, exist_ok=True)
+    metrics_path.write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+    print(f"Saved predictions under {generation_dir} and proxy metrics under {metrics_path.parent}", flush=True)
 
 
 if __name__ == "__main__":

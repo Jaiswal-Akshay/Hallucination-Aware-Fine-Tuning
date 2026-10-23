@@ -5,8 +5,9 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import LoraConfig, get_peft_model
 
 MODEL_ID = "Qwen/Qwen2.5-0.5B-Instruct"
-MODEL_PATH = Path(__file__).parent / "models" / "base" / "Qwen2.5-0.5B-Instruct"
-HF_HOME = Path(__file__).parent / ".cache" / "hf"
+ROOT = Path(__file__).resolve().parents[1]
+MODEL_PATH = ROOT / "models" / "base" / "Qwen2.5-0.5B-Instruct"
+HF_HOME = ROOT / ".cache" / "hf"
 os.environ["HF_HOME"] = str(HF_HOME)
 os.environ["HF_HUB_DISABLE_TELEMETRY"] = "1"
 torch.set_num_threads(8)

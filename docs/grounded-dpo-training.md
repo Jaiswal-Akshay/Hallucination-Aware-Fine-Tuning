@@ -4,8 +4,8 @@
 
 - **Base:** `Qwen/Qwen2.5-0.5B-Instruct`, revision `7ae557604adf67be50417f59c2c2f167def9a775`
 - **Method:** TRL `DPOTrainer` with PEFT LoRA; the DPO adapter was initialized independently from the original base, not from SFT
-- **Training data:** 8 reviewed preference pairs from `data/grounded/dpo.jsonl` (training split only)
-- **Validation data:** 4 validation-only preference pairs in `data/grounded/dpo_validation.jsonl`, one per evidence condition; each chosen response matches that case's expected answer
+- **Training data:** 8 reviewed preference pairs from `data/processed/grounded/dpo.jsonl` (training split only)
+- **Validation data:** 4 validation-only preference pairs in `data/processed/grounded/dpo_validation.jsonl`, one per evidence condition; each chosen response matches that case's expected answer
 - **Test data:** 4 test cases excluded
 - **Sequence cap:** 256 tokens
 - **LoRA:** rank 4, alpha 8, dropout 0.05, `q_proj` and `v_proj`
@@ -28,7 +28,7 @@ These are optimization diagnostics on a tiny pilot, not measurements of hallucin
 
 ## Saved outputs
 
-The generated files are local and Git-ignored under `outputs/grounded-dpo-adapter/`:
+The generated files are local and Git-ignored under `outputs/adapters/grounded-dpo/`:
 
 - `adapter_model.safetensors` and `adapter_config.json`: trained LoRA adapter
 - `run_config.json`: base revision, split counts, seed, DPO/LoRA settings, full trainer arguments, and package versions
@@ -39,5 +39,5 @@ The generated files are local and Git-ignored under `outputs/grounded-dpo-adapte
 To reproduce from the project root:
 
 ```powershell
-.\.venv\Scripts\python.exe train_grounded_dpo.py
+.\.venv\Scripts\python.exe src\train_grounded_dpo.py
 ```

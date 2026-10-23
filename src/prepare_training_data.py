@@ -2,10 +2,10 @@
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
-SOURCE = ROOT / "data" / "source" / "preference_pairs.jsonl"
-EVALUATION = ROOT / "data" / "eval" / "baseline.jsonl"
-TRAIN = ROOT / "data" / "train"
+ROOT = Path(__file__).resolve().parents[1]
+SOURCE = ROOT / "data" / "raw" / "prototype" / "source" / "preference_pairs.jsonl"
+EVALUATION = ROOT / "data" / "processed" / "prototype" / "eval" / "baseline.jsonl"
+TRAIN = ROOT / "data" / "processed" / "prototype" / "train"
 REQUIRED_CONDITIONS = {"clean", "incomplete", "irrelevant", "contradictory"}
 
 
